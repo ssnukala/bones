@@ -9,7 +9,7 @@
  */
 namespace UserFrosting\Exception;
 
-class BadRequestException extends UserFrostingException
+class BadRequestException extends HttpException
 {
     protected $http_error_code = 400;
     protected $default_message = "NO_DATA";

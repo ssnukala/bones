@@ -10,7 +10,7 @@ namespace UserFrosting\Exception;
 
 use UserFrosting\Message\UserMessage as UserMessage;
 
-class UserFrostingException extends \Exception
+class HttpException extends \Exception
 {
 
     /**

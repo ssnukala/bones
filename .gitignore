@@ -3,3 +3,5 @@ build/node_modules
 *.komodoproject
 .DS_STORE
 _meta
+*.lock
+composer.phar

@@ -9,7 +9,7 @@
  */
 namespace UserFrosting\Exception;
 
-class ForbiddenException extends UserFrostingException
+class ForbiddenException extends HttpException
 {
     protected $http_error_code = 403;
     protected $default_message = "ACCESS_DENIED";

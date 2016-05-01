@@ -205,7 +205,7 @@ class UserFrostingServicesProvider
             return new \UserFrosting\Handler\UserFrostingErrorHandler($config, $alerts, $view, $settings['displayErrorDetails']);
         };        
     
-        // Custom 404 handler
+        // Custom 404 handler.  TODO: handle xhr case, just like errorHandler
         $container['notFoundHandler'] = function ($c) {
             return function ($request, $response) use ($c) {
                 return $c->view->render($response, 'pages/error/404.html.twig') 

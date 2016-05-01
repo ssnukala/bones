@@ -46,7 +46,7 @@ class ShutdownHandler {
             
             error_log("Fatal error ($errno) in $errfile on line $errline: $errstr");
             header("HTTP/1.1 500 Internal Server Error");            
-            exit($error['type']); # Exit with the error type code.
+            exit($errno); # Exit with the error type code.
         }
     }
 }

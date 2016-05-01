@@ -18,7 +18,7 @@
         "twig/twig": "~1.0",
         "userfrosting/config": "1.0",
         "userfrosting/fortress" : "1.0",
-        "userfrosting/assets" : "1.0"        
+        "userfrosting/assets" : "dev-master"        
     },
     "autoload": {
         "psr-4": {

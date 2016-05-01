@@ -55,7 +55,7 @@ class UserFrostingErrorHandler extends \Slim\Handlers\Error
         // Log the error message, if displayErrorDetails is false   
         
         // Get client messages and an appropriate HTTP error code
-        if ($exception instanceof \UserFrosting\Exception\UserFrostingException) {
+        if ($exception instanceof \UserFrosting\Exception\HttpException) {
             $messages = $exception->getUserMessages();
             $http_code = $exception->getHttpErrorCode();
         } else {
