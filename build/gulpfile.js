@@ -9,7 +9,7 @@ var sourceDirectory = '../app/assets/';
 // will be specified relative to this path.
 var destDirectory = '../public/assets/';
 
-gulp.task('bundle', function() {
+gulp.task('build', function() {
     fb = gulp.src('./bundle.config.json')
         .pipe(plugins.bundleAssets({
             base: sourceDirectory
