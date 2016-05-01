@@ -1,0 +1,42 @@
+{
+  "bundle": {
+    "js/main": {
+        "scripts": [
+            {
+                "src": "js/bootstrap-3.3.1.js"
+            }
+        ],
+        "options": {
+            "result": {
+                "type": {
+                  "scripts": "plain"
+                }
+            }
+        }
+    },
+    "css/main": {
+        "styles": [
+            "vendor/font-awesome-4.5.0/css/font-awesome.css",
+            "css/bootstrap-3.3.1.css",
+            "css/modern-business.css"
+        ],
+        "options": {
+            "result": {
+                "type": {
+                  "styles": "plain"
+                }
+            }
+        }
+    }
+  },
+  "copy": [
+    {
+        "src": "images/**/*",
+        "base": "."
+    },
+    {
+        "src": "vendor/font-awesome-4.5.0/fonts/**/*",
+        "base": "vendor/font-awesome-4.5.0/"
+    }
+  ]
+}
