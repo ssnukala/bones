@@ -76,6 +76,21 @@ class UserFrostingServicesProvider
             };
         }
         
+        if (!isset($container['session'])){         
+            // Custom shutdown handler, for dealing with fatal errors
+            $container['session'] = function ($c) {
+                $config = $c->get('config');
+                
+                if (session_status() == PHP_SESSION_NONE) {
+                    session_cache_limiter($config['session.cache_limiter']);
+                    session_name($config['session.name']);
+                    session_start();
+                }
+                
+                return $_SESSION;
+            };
+        }        
+        
         if (!isset($container['assets'])){
             $container['assets'] = function ($c) {
                 $config = $c->get('config');
