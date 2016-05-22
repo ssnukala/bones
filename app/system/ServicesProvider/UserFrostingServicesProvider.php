@@ -9,6 +9,9 @@
  */
 namespace UserFrosting\ServicesProvider;
 
+use Dotenv\Dotenv;
+use Dotenv\Exception\InvalidPathException;
+
 use RocketTheme\Toolbox\ResourceLocator\UniformResourceLocator;
 use RocketTheme\Toolbox\StreamWrapper\StreamBuilder;
 use RocketTheme\Toolbox\StreamWrapper\ReadOnlyStream;
@@ -35,6 +38,15 @@ class UserFrostingServicesProvider
         // Site config object (separate from Slim settings)
         if (!isset($container['config'])){
             $container['config'] = function ($c) {
+            
+                // Grab any relevant dotenv variables from the .env file
+                try {
+                    $dotenv = new Dotenv(\UserFrosting\APP_DIR);
+                    $dotenv->load();
+                } catch (InvalidPathException $e){
+                    // Skip loading the environment config file if it doesn't exist.
+                }
+                
                 // Create and inject new config item
                 $config = new \UserFrosting\Config\Config();
             
@@ -43,8 +55,9 @@ class UserFrostingServicesProvider
                     \UserFrosting\APP_DIR . '/' . \UserFrosting\CONFIG_DIR_NAME
                 ]);
                 
-                // TODO: get config mode from environment variable if specified
-                $config->loadConfigurationFiles('development');
+                // Get configuration mode from environment
+                $mode = getenv("UF_MODE") ?: "development";
+                $config->loadConfigurationFiles($mode);
                 
                 // Set some PHP parameters, if specified in config
                 
@@ -64,12 +77,15 @@ class UserFrostingServicesProvider
                 if (!isset($config['site.uri.public'])) {
                     $base_uri = $config['site.uri.base'];
                     
-                    $config['site.uri.public'] = new Uri(
+                    $public = new Uri(
                         $base_uri['scheme'],
                         $base_uri['host'],
                         $base_uri['port'],
                         $base_uri['path']
                     );
+                    
+                    // Slim\Http\Uri likes to add trailing slashes when the path is empty, so this fixes that.
+                    $config['site.uri.public'] = trim($public, '/');
                 }
                 
                 return $config;

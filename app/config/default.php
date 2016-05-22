@@ -20,7 +20,7 @@
             'db_host'  => 'localhost',
             'db_name'  => 'database',
             'db_user'  => 'username',
-            'db_pass'  => 'password',
+            'db_pass'  => getenv('DB_PASSWORD'),
             'db_prefix'=> ''
         ],
         'mail'    => 'smtp',
@@ -30,7 +30,7 @@
             'auth' => true,
             'secure' => 'ssl',
             'user' => 'relay@example.com',
-            'pass' => 'password'
+            'pass' => getenv('SMTP_PASSWORD'),
         ],
         'site' => [
             'title'     =>      "UserFrosting",
@@ -38,10 +38,10 @@
             // URLs
             'uri' => [
                 'base' => [
-                    'host'              => $_SERVER['SERVER_NAME'],
+                    'host'              => trim($_SERVER['SERVER_NAME'], '/'),
                     'scheme'            => empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] === 'off' ? 'http' : 'https',
                     'port'              => null,
-                    'path'              => dirname($_SERVER['SCRIPT_NAME'])
+                    'path'              => trim(dirname($_SERVER['SCRIPT_NAME']), '/')
                 ],
                 'assets-raw'        => "assets-raw",
                 'assets'            => "assets"
