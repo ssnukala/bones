@@ -6,3 +6,4 @@ _meta
 *.lock
 \.env
 composer.phar
+app/logs/errors.log

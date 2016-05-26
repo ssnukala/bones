@@ -5,17 +5,20 @@
 
     global $app;
 
+    // Environment check middleware
+    $checkEnvironment = $app->getContainer()['checkEnvironment'];
+    
     // Front page
     $app->get('/', function (Request $request, Response $response, $args) {
         $config = $this->get('config');
         
-        return $this->view->render($response, 'pages/index.html.twig');
-    });
+        return $this->view->render($response, 'pasdges/index.html.twig');
+    })->add($checkEnvironment);
 
     // About page
     $app->get('/about', function (Request $request, Response $response, $args) {
         return $this->view->render($response, 'pages/about.html.twig');     
-    });      
+    })->add($checkEnvironment);      
     
     // Flash alert stream
     $app->get('/alerts', function (Request $request, Response $response, $args) {

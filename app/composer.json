@@ -19,7 +19,8 @@
         "userfrosting/config": "1.0",
         "userfrosting/fortress" : "1.0",
         "userfrosting/assets" : "dev-master",
-        "vlucas/phpdotenv" : "2.*"        
+        "vlucas/phpdotenv" : "2.*",
+        "monolog/monolog" : "1.*"        
     },
     "autoload": {
         "psr-4": {

@@ -12,16 +12,21 @@ namespace UserFrosting\ServicesProvider;
 use Dotenv\Dotenv;
 use Dotenv\Exception\InvalidPathException;
 
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+use Monolog\Handler\ErrorLogHandler;
+
 use RocketTheme\Toolbox\ResourceLocator\UniformResourceLocator;
 use RocketTheme\Toolbox\StreamWrapper\StreamBuilder;
 use RocketTheme\Toolbox\StreamWrapper\ReadOnlyStream;
 
+use Slim\Http\Uri;
+
 use UserFrosting\Assets\AssetManager;
 use UserFrosting\Assets\AssetBundleSchema;
+use UserFrosting\Util\CheckEnvironment;
 
 use UserFrosting\Extension\UserFrostingExtension as UserFrostingExtension;
-
-use Slim\Http\Uri;
     
 /**
  * Registers services for UserFrosting, such as config, database, asset manager, translator, etc.
@@ -232,8 +237,9 @@ class UserFrostingServicesProvider
             $config = $c->get('config');
             $view = $c->get('view');
             $settings = $c->get('settings');
-            
-            return new \UserFrosting\Handler\UserFrostingErrorHandler($config, $alerts, $view, $settings['displayErrorDetails']);
+            $errorLogger = $c->get('errorLogger');
+               
+            return new \UserFrosting\Handler\UserFrostingErrorHandler($config, $alerts, $view, $errorLogger, $settings['displayErrorDetails']);
         };        
     
         // Custom 404 handler.  TODO: handle xhr case, just like errorHandler
@@ -244,5 +250,19 @@ class UserFrostingServicesProvider
                     ->withHeader('Content-Type', 'text/html');
             };
         };
+        
+        // Error logging with Monolog
+        $container['errorLogger'] = function ($c) {
+            $log = new Logger('errors');
+            $handler = new StreamHandler(\UserFrosting\APP_DIR . '/' . \UserFrosting\LOG_DIR_NAME . '/errors.log', Logger::WARNING);
+            $log->pushHandler($handler);
+            return $log;
+        };
+        
+        // Check environment middleware
+        $container['checkEnvironment'] = function ($c) {
+            $checkEnvironment = new CheckEnvironment($c->get('view'));
+            return $checkEnvironment;
+        };        
     }
 }

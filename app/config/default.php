@@ -50,6 +50,6 @@
         'timezone' => 'America/New_York',
         'error_reporting' => E_ALL,  // Development - report all errors and suggestions
         'display_errors'  => "off",
-        'use_raw_assets'  => false
+        'use_raw_assets'  => true
     ];
     

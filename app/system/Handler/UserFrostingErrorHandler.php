@@ -28,16 +28,19 @@ class UserFrostingErrorHandler extends \Slim\Handlers\Error
 
     protected $view;
     
+    protected $errorLogger;
+    
     /**
      * Constructor
      *
      * @param boolean $displayErrorDetails Set to true to display full details
      */
-    public function __construct($config, $alerts, $view, $displayErrorDetails = false)
+    public function __construct($config, $alerts, $view, $errorLogger, $displayErrorDetails = false)
     {
         $this->alerts = $alerts;
         $this->config = $config;
         $this->view = $view;
+        $this->errorLogger = $errorLogger;
         $this->displayErrorDetails = (bool)$displayErrorDetails;
     }
     
@@ -107,4 +110,14 @@ class UserFrostingErrorHandler extends \Slim\Handlers\Error
             }
         }
     }
+    
+    /**
+     * Alternative logging for errors
+     *
+     * @param $message
+     */
+    protected function logError($message)
+    {
+        $this->errorLogger->error($message);
+    }    
 }
