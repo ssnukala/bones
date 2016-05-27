@@ -17,11 +17,14 @@
             'cache_limiter' => false
         ],            
         'db'      =>  [
-            'db_host'  => 'localhost',
-            'db_name'  => 'database',
-            'db_user'  => 'username',
-            'db_pass'  => getenv('DB_PASSWORD'),
-            'db_prefix'=> ''
+            'driver'    => 'mysql',
+            'host'      => 'localhost',
+            'database'  => 'database',
+            'username'  => 'username',
+            'password'  => getenv('DB_PASSWORD'),
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'    => ''
         ],
         'mail'    => 'smtp',
         'smtp'    => [

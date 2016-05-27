@@ -138,14 +138,32 @@ class UserFrostingServicesProvider
 
         if (!isset($container['db'])){
             /**
-             * Initialize RedBean DB
+             * Initialize Eloquent Capsule
              *
              * @todo construct the individual objects rather than using the facade
              */
             $container['db'] = function ($c) {
                 $config = $c->get('config');
-                \R::setup("mysql:host={$config['db.db_host']};dbname={$config['db.db_name']}",$config['db.db_user'], $config['db.db_pass']);         
-                //R::freeze( false );
+                
+                $capsule = new Capsule;
+                $capsule->addConnection([
+                    'driver'    => $config['db.driver'],
+                    'host'      => $config['db.host'],
+                    'database'  => $config['db.database'],
+                    'username'  => $config['db.username'],
+                    'password'  => $config['db.password'],
+                    'charset'   => $config['db.charset'],
+                    'collation' => $config['db.collation'],
+                    'prefix'    => $config['db.prefix']
+                ]);
+                
+                // Register as global connection
+                $capsule->setAsGlobal();
+                
+                // Start Eloquent
+                $capsule->bootEloquent();
+                
+                return $capsule;
             };
         }
         

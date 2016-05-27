@@ -10,6 +10,8 @@
         }
     ],   
     "require": {
+        "illuminate/database" : "5.*",
+        "monolog/monolog" : "1.*",
         "php": ">=5.5.9",
         "phpmailer/phpmailer": "5.2.9",
         "rockettheme/toolbox": "1.3.1",        
@@ -18,9 +20,8 @@
         "twig/twig": "~1.0",
         "userfrosting/config": "1.0",
         "userfrosting/fortress" : "1.0",
-        "userfrosting/assets" : "dev-master",
-        "vlucas/phpdotenv" : "2.*",
-        "monolog/monolog" : "1.*"        
+        "userfrosting/assets" : "1.1",
+        "vlucas/phpdotenv" : "2.*"    
     },
     "autoload": {
         "psr-4": {

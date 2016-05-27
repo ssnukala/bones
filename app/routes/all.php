@@ -12,7 +12,7 @@
     $app->get('/', function (Request $request, Response $response, $args) {
         $config = $this->get('config');
         
-        return $this->view->render($response, 'pasdges/index.html.twig');
+        return $this->view->render($response, 'pages/index.html.twig');
     })->add($checkEnvironment);
 
     // About page
