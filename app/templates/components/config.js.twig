@@ -2,7 +2,7 @@
 {% autoescape 'js' %}
     var site = {
     "uri": {
-        "public": "{{ site.uri.public }}"
+        "public": "{{ site.uri.public | raw }}"
     }
 };
 {% endautoescape %}

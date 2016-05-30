@@ -13,13 +13,13 @@
     
     // Front page
     $app->get('/', function (Request $request, Response $response, $args) {
-        $config = $this->get('config');
+        $config = $this->config;
         
         return $this->view->render($response, 'pages/index.html.twig');
     })->add($checkEnvironment);
 
     $app->get('/install', function (Request $request, Response $response, $args) {
-        $this->get('db');
+        $this->db;
         $schema = Capsule::schema();
         
         if (!$schema->hasTable('activations')) {
@@ -119,12 +119,12 @@
     
     // Flash alert stream
     $app->get('/alerts', function (Request $request, Response $response, $args) {
-        return $response->withJson($this->get('alerts')->getAndClearMessages());
+        return $response->withJson($this->alerts->getAndClearMessages());
     });
 
     // End a session
     $app->get('/logout', function (Request $request, Response $response, $args) {
-        $config = $this->get('config');
+        $config = $this->config;
         session_destroy();
         return $response->withStatus(302)->withHeader('Location', $config['site.uri.public']);
     });

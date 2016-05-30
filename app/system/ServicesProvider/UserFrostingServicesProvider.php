@@ -206,12 +206,14 @@ class UserFrostingServicesProvider
                 $locator = new UniformResourceLocator(\UserFrosting\APP_DIR);
                 
                 // TODO: set in config or defines.php
-                $locator->addPath('assets', '', 'assets');
+                $locator->addPath('assets', '', \UserFrosting\ASSET_DIR_NAME);
+                $locator->addPath('schema', '', \UserFrosting\SCHEMA_DIR_NAME);
                 
                 // Use locator to initialize streams
                 ReadOnlyStream::setLocator($locator);
                 $sb = new StreamBuilder([
-                    'assets' => '\\RocketTheme\\Toolbox\\StreamWrapper\\ReadOnlyStream'
+                    'assets' => '\\RocketTheme\\Toolbox\\StreamWrapper\\ReadOnlyStream',
+                    'schema' => '\\RocketTheme\\Toolbox\\StreamWrapper\\ReadOnlyStream'
                 ]);
                 
                 return $locator;

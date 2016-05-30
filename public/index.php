@@ -30,6 +30,8 @@
     // Get shutdownHandler set up.  This needs to be constructed explicitly because it's invoked natively by PHP.
     $container['shutdownHandler'];     
     
+    $container['db'];
+    
     // Finally, include all defined routes in route directory
     $route_files = glob(UserFrosting\APP_DIR . '/' . UserFrosting\ROUTE_DIR_NAME . "/*.php");
     foreach ($route_files as $route_file){
