@@ -9,16 +9,20 @@
  */
 namespace UserFrosting\ServicesProvider;
 
+use Cartalyst\Sentinel\Native\Facades\Sentinel;
+
 use Dotenv\Dotenv;
 use Dotenv\Exception\InvalidPathException;
+
+use Illuminate\Database\Capsule\Manager as Capsule;
 
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\ErrorLogHandler;
 
 use RocketTheme\Toolbox\ResourceLocator\UniformResourceLocator;
-use RocketTheme\Toolbox\StreamWrapper\StreamBuilder;
 use RocketTheme\Toolbox\StreamWrapper\ReadOnlyStream;
+use RocketTheme\Toolbox\StreamWrapper\StreamBuilder;
 
 use Slim\Http\Uri;
 

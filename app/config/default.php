@@ -19,8 +19,8 @@
         'db'      =>  [
             'driver'    => 'mysql',
             'host'      => 'localhost',
-            'database'  => 'database',
-            'username'  => 'username',
+            'database'  => 'uf4',
+            'username'  => 'userfrosting',
             'password'  => getenv('DB_PASSWORD'),
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',

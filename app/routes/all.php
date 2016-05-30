@@ -1,5 +1,8 @@
 <?php
 
+    use Illuminate\Database\Capsule\Manager as Capsule;
+    use Illuminate\Database\Schema\Blueprint;
+
     use \Psr\Http\Message\ServerRequestInterface as Request;
     use \Psr\Http\Message\ResponseInterface as Response;
 
@@ -15,6 +18,100 @@
         return $this->view->render($response, 'pages/index.html.twig');
     })->add($checkEnvironment);
 
+    $app->get('/install', function (Request $request, Response $response, $args) {
+        $this->get('db');
+        $schema = Capsule::schema();
+        
+        if (!$schema->hasTable('activations')) {
+            $schema->create('activations', function (Blueprint $table) {
+                $table->increments('id');
+                $table->integer('user_id')->unsigned();
+                $table->string('code');
+                $table->boolean('completed')->default(0);
+                $table->timestamp('completed_at')->nullable();
+                $table->timestamps();
+    
+                $table->engine = 'InnoDB';
+            });
+        }
+        
+        if (!$schema->hasTable('persistences')) {
+            $schema->create('persistences', function (Blueprint $table) {
+                $table->increments('id');
+                $table->integer('user_id')->unsigned();
+                $table->string('code');
+                $table->timestamps();
+    
+                $table->engine = 'InnoDB';
+                $table->unique('code');
+            });
+        }
+        
+        if (!$schema->hasTable('reminders')) {
+            $schema->create('reminders', function (Blueprint $table) {
+                $table->increments('id');
+                $table->integer('user_id')->unsigned();
+                $table->string('code');
+                $table->boolean('completed')->default(0);
+                $table->timestamp('completed_at')->nullable();
+                $table->timestamps();
+            });
+        }
+        
+        if (!$schema->hasTable('roles')) {
+            $schema->create('roles', function (Blueprint $table) {
+                $table->increments('id');
+                $table->string('slug');
+                $table->string('name');
+                $table->text('permissions')->nullable();
+                $table->timestamps();
+    
+                $table->engine = 'InnoDB';
+                $table->unique('slug');
+            });
+        }
+        
+        if (!$schema->hasTable('role_users')) {
+            $schema->create('role_users', function (Blueprint $table) {
+                $table->integer('user_id')->unsigned();
+                $table->integer('role_id')->unsigned();
+                $table->nullableTimestamps();
+    
+                $table->engine = 'InnoDB';
+                $table->primary(['user_id', 'role_id']);
+            });
+        }
+        
+        if (!$schema->hasTable('throttle')) {
+            $schema->create('throttle', function (Blueprint $table) {
+                $table->increments('id');
+                $table->integer('user_id')->unsigned()->nullable();
+                $table->string('type');
+                $table->string('ip')->nullable();
+                $table->timestamps();
+    
+                $table->engine = 'InnoDB';
+                $table->index('user_id');
+            });
+        }
+
+        if (!$schema->hasTable('users')) {
+            $schema->create('users', function (Blueprint $table) {
+                $table->increments('id');
+                $table->string('email');
+                $table->string('password');
+                $table->text('permissions')->nullable();
+                $table->timestamp('last_login')->nullable();
+                $table->string('first_name')->nullable();
+                $table->string('last_name')->nullable();
+                $table->timestamps();
+    
+                $table->engine = 'InnoDB';
+                $table->unique('email');
+            });
+        }
+    });
+    
     // About page
     $app->get('/about', function (Request $request, Response $response, $args) {
         return $this->view->render($response, 'pages/about.html.twig');     

@@ -10,6 +10,7 @@
         }
     ],   
     "require": {
+        "cartalyst/sentinel" : "2.0.*",
         "illuminate/database" : "5.*",
         "monolog/monolog" : "1.*",
         "php": ">=5.5.9",

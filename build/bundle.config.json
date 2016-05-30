@@ -2,9 +2,24 @@
   "bundle": {
     "js/main": {
         "scripts": [
-            {
-                "src": "js/bootstrap-3.3.1.js"
+            "js/bootstrap-3.3.1.js",
+            "vendor/jQueryValidation/jquery.validate.js",
+            "vendor/jQueryValidation/additional-methods.js",
+            "vendor/jQueryValidation/jqueryvalidation-methods-fortress.js",
+            "js/uf-alerts.js",
+            "js/uf-form.js"
+        ],
+        "options": {
+            "result": {
+                "type": {
+                  "scripts": "plain"
+                }
             }
+        }
+    },
+    "js/pages/register" : {
+        "scripts": [
+            "js/pages/register.js"
         ],
         "options": {
             "result": {
