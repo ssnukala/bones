@@ -21,9 +21,11 @@
         "slim/twig-view": "*",
         "symfony/http-foundation" : "*",
         "twig/twig": "~1.0",
-        "userfrosting/config": "1.0",
-        "userfrosting/fortress" : "1.0",
         "userfrosting/assets" : "1.1",
+        "userfrosting/config": "1.1",
+        "userfrosting/fortress" : "2.0",
+        "userfrosting/i18n": "1.0",
+        "userfrosting/support": "1.0",
         "vlucas/phpdotenv" : "2.*"    
     },
     "autoload": {

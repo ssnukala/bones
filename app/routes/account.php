@@ -7,6 +7,9 @@
 
     use \Psr\Http\Message\ResponseInterface as Response;
     use \Psr\Http\Message\ServerRequestInterface as Request;
+    
+    use UserFrosting\Fortress\RequestSchema;
+    use UserFrosting\Fortress\Adapter\JqueryValidationAdapter;
 
     global $app;
 
@@ -18,8 +21,8 @@
             
             // Load validation rules
             $locator = $this->locator;
-            $schema = new \Fortress\RequestSchema("schema://forms/register.json");
-            $validator = new \Fortress\JqueryValidationAdapter($this->translator, $schema);
+            $schema = new RequestSchema("schema://forms/register.json");
+            $validator = new JqueryValidationAdapter($schema, $this->translator);
             
             return $this->view->render($response, 'pages/account/register.html.twig', [
                 "page" => [

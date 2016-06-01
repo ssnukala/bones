@@ -13,6 +13,8 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Http\Body;
 
+use UserFrosting\Support\Message\UserMessage;
+
 /**
  * Default UserFrosting application error handler
  *
@@ -63,7 +65,7 @@ class UserFrostingErrorHandler extends \Slim\Handlers\Error
             $http_code = $exception->getHttpErrorCode();
         } else {
             $messages = [
-                new \UserFrosting\Message\UserMessage("SERVER_ERROR")
+                new UserMessage("SERVER_ERROR")
             ];
             $http_code = 500;
         }

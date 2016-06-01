@@ -7,3 +7,4 @@ _meta
 \.env
 composer.phar
 app/logs/errors.log
+public/assets/*

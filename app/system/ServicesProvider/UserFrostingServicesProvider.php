@@ -31,7 +31,9 @@ use UserFrosting\Assets\AssetBundleSchema;
 use UserFrosting\Util\CheckEnvironment;
 
 use UserFrosting\Extension\UserFrostingExtension as UserFrostingExtension;
-    
+
+use UserFrosting\I18n\MessageTranslator;
+
 /**
  * Registers services for UserFrosting, such as config, database, asset manager, translator, etc.
  */
@@ -65,7 +67,7 @@ class UserFrostingServicesProvider
                 ]);
                 
                 // Get configuration mode from environment
-                $mode = getenv("UF_MODE") ?: "development";
+                $mode = getenv("UF_MODE") ?: "";
                 $config->loadConfigurationFiles($mode);
                 
                 // Set some PHP parameters, if specified in config
@@ -178,7 +180,7 @@ class UserFrostingServicesProvider
                 $container['translator'];
                 
                 if (!isset($_SESSION['site']['alerts']))
-                    $_SESSION['site']['alerts'] = new \Fortress\MessageStream();
+                    $_SESSION['site']['alerts'] = new \UserFrosting\MessageStream();
                     
                 return $_SESSION['site']['alerts'];
             };
@@ -187,14 +189,14 @@ class UserFrostingServicesProvider
         if (!isset($container['translator'])){        
             // Set up translator.
             $container['translator'] = function ($container) {
-                $translator = new \Fortress\MessageTranslator();
+                $translator = new MessageTranslator();
                 
                 // Set the translation path and default language path.
                 $translator->setTranslationTable(\UserFrosting\APP_DIR . '/' . \UserFrosting\LOCALE_DIR_NAME . "/en_US.php");
                 $translator->setDefaultTable(\UserFrosting\APP_DIR . '/' . \UserFrosting\LOCALE_DIR_NAME . "/en_US.php");
                 
                 // Register translator with MessageStream
-                \Fortress\MessageStream::setTranslator($translator);
+                \UserFrosting\MessageStream::setTranslator($translator);
                 
                 return $translator;
             };
