@@ -60,7 +60,7 @@ class UserFrostingErrorHandler extends \Slim\Handlers\Error
         // Log the error message, if displayErrorDetails is false   
         
         // Get client messages and an appropriate HTTP error code
-        if ($exception instanceof \UserFrosting\Exception\HttpException) {
+        if ($exception instanceof \UserFrosting\Support\Exception\HttpException) {
             $messages = $exception->getUserMessages();
             $http_code = $exception->getHttpErrorCode();
         } else {
@@ -82,13 +82,14 @@ class UserFrostingErrorHandler extends \Slim\Handlers\Error
             foreach ($messages as $message){
                 $this->alerts->addMessageTranslated("danger", $message->message, $message->parameters);
             }
+            
             return $response->withStatus($http_code);
         } else {
             
             /**
              * Invalid access token: write all error messages to alert stream, and then redirect to front page.
              */
-            if ($exception instanceof \UserFrosting\Exception\InvalidAccessTokenException) {
+            if ($exception instanceof \UserFrosting\Support\Exception\InvalidAccessTokenException) {
                 foreach ($messages as $message){
                     $this->alerts->addMessageTranslated("danger", $message->message, $message->parameters);
                 }

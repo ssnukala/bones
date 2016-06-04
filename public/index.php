@@ -23,10 +23,6 @@
     
     $config = $container->get('config');
     
-    // Set up session.  Mainly just needed for persistent messages.
-    // TODO: stop using PHP native sessions
-    $container['session'];
-    
     // Get shutdownHandler set up.  This needs to be constructed explicitly because it's invoked natively by PHP.
     $container['shutdownHandler'];     
     

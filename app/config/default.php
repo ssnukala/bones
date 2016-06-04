@@ -13,7 +13,7 @@
             'public_relative'   => dirname($_SERVER['SCRIPT_NAME'])      // The location of `index.php` relative to the document root.  Use for sites installed in subdirectories.
         ],
         'session' => [
-            'name' => 'userfrosting',
+            'name' => 'uf4',
             'cache_limiter' => false
         ],            
         'db'      =>  [

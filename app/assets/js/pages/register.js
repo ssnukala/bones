@@ -1,4 +1,11 @@
-
+/**
+ * Page-specific Javascript file.  Should generally be included as a separate asset bundle in your page template.
+ * example: {{ assets.js('js/pages/register') | raw }}
+ *
+ * This script depends on validation rules specified in components/validators.js.twig.
+ *
+ * Target page: account/register
+ */
 $(document).ready(function() {           
     // Process form 
     $("#register").ufForm({
@@ -11,4 +18,4 @@ $(document).ready(function() {
         // Reload captcha
         //$("#captcha").captcha();
     });
-});  
+});

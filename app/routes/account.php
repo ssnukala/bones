@@ -19,6 +19,7 @@
     $app->group('/account', function () use ($checkEnvironment) {
         $this->get('/register', function (Request $request, Response $response, $args) {
             
+            
             // Load validation rules
             $locator = $this->locator;
             $schema = new RequestSchema("schema://forms/register.json");
@@ -31,8 +32,18 @@
             ]);     
         })->add($checkEnvironment);
         
+        $this->get('/logout', function (Request $request, Response $response, $args) {
+            $this->session->destroy();
+            $config = $this->config;
+            return $response->withStatus(302)->withHeader('Location', $config['site.uri.public']);
+        });
         
         $this->post('/register', function (Request $request, Response $response, $args) {            
+               
+            $e = new \UserFrosting\Support\Exception\BadRequestException();
+            $e->addUserMessage("Something bad!");
+            throw $e;
+            
             // Register a new user
             Sentinel::register([
                 'email'    => 'test@example.com',

@@ -34,6 +34,16 @@ use UserFrosting\Extension\UserFrostingExtension as UserFrostingExtension;
 
 use UserFrosting\I18n\MessageTranslator;
 
+// For sessions
+use Symfony\Component\HttpFoundation\Session\Storage\Handler\NullSessionHandler;
+use \Illuminate\Filesystem\Filesystem;
+use Illuminate\Session\FileSessionHandler;
+use Illuminate\Session\DatabaseSessionHandler;
+
+use Illuminate\Session\Store;
+use UserFrosting\Session\Session;
+use UserFrosting\Session\SessionMiddleware;
+
 /**
  * Registers services for UserFrosting, such as config, database, asset manager, translator, etc.
  */
@@ -104,17 +114,39 @@ class UserFrostingServicesProvider
         }
         
         if (!isset($container['session'])){         
-            // Custom shutdown handler, for dealing with fatal errors
             $container['session'] = function ($c) {
                 $config = $c->get('config');
                 
-                if (session_status() == PHP_SESSION_NONE) {
-                    session_cache_limiter($config['session.cache_limiter']);
-                    session_name($config['session.name']);
-                    session_start();
-                }
+                // Create appropriate handler based on config
                 
-                return $_SESSION;
+                
+                
+                //$fs = new FileSystem;
+                //$handler = new FileSessionHandler($fs, \UserFrosting\APP_DIR . "/sessions");
+                
+                
+                $connection = $c->get('db')->connection();
+                $table = 'session';
+                // Table must exist, otherwise an exception will be thrown
+                $handler = new DatabaseSessionHandler($connection, $table);
+                
+                // Create and return a new wrapper for $_SESSION
+                return new Session($handler, $config['session']);
+            };
+        }        
+        
+        if (!isset($container['alerts'])){
+            // Set up persistent message stream for alerts.
+            $container['alerts'] = function ($c) {
+                // Message stream depends on translator.  TODO: inject as dependency into MessageStream
+                $c->get('translator');
+                
+                $session = $c->get('session');
+                
+                if (!$session['site.alerts'])
+                    $session['site.alerts'] = new \UserFrosting\MessageStream();
+                    
+                return $session['site.alerts'];
             };
         }        
         
@@ -170,19 +202,6 @@ class UserFrostingServicesProvider
                 $capsule->bootEloquent();
                 
                 return $capsule;
-            };
-        }
-        
-        if (!isset($container['alerts'])){
-            // Set up persistent message stream for alerts.
-            $container['alerts'] = function ($container) {
-                // Message stream depends on translator.  TODO: inject as dependency into MessageStream
-                $container['translator'];
-                
-                if (!isset($_SESSION['site']['alerts']))
-                    $_SESSION['site']['alerts'] = new \UserFrosting\MessageStream();
-                    
-                return $_SESSION['site']['alerts'];
             };
         }
         

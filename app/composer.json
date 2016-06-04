@@ -12,7 +12,7 @@
     "require": {
         "cartalyst/sentinel" : "2.0.*",
         "illuminate/database" : "~5.0",
-        "illuminate/events" : "~5.0",
+        "illuminate/events" : "~5.0",       
         "monolog/monolog" : "1.*",
         "php": ">=5.5.9",
         "phpmailer/phpmailer": "5.2.9",
@@ -25,9 +25,11 @@
         "userfrosting/config": "1.1",
         "userfrosting/fortress" : "2.0",
         "userfrosting/i18n": "1.0",
+        "userfrosting/session" : "dev-master",
         "userfrosting/support": "1.0",
         "vlucas/phpdotenv" : "2.*"    
     },
+    "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
             "UserFrosting\\": "system/"

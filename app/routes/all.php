@@ -110,6 +110,17 @@
                 $table->unique('email');
             });
         }
+        
+        if (!$schema->hasTable('session')) {
+            $schema->create('session', function (Blueprint $table) {
+                $table->string('id')->unique();
+                $table->integer('user_id')->nullable();
+                $table->string('ip_address', 45)->nullable();
+                $table->text('user_agent')->nullable();
+                $table->text('payload');
+                $table->integer('last_activity');
+            });
+        }
     });
     
     // About page
@@ -120,13 +131,5 @@
     // Flash alert stream
     $app->get('/alerts', function (Request $request, Response $response, $args) {
         return $response->withJson($this->alerts->getAndClearMessages());
-    });
-
-    // End a session
-    $app->get('/logout', function (Request $request, Response $response, $args) {
-        $config = $this->config;
-        session_destroy();
-        return $response->withStatus(302)->withHeader('Location', $config['site.uri.public']);
-    });
-    
+    });   
     
